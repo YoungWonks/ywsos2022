@@ -26,3 +26,9 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
+
+# Server
+server/venv
+server/**/__pycache__
+
+.env

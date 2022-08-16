@@ -28,6 +28,8 @@ Mobile:
 - [Flutter > 3.4](https://flutter.dev)
 - [Android Studio](https://docs.flutter.dev/get-started/install/macos#android-setup) for Android development on Windows, MacOS, or Linux OR [Xcode](https://docs.flutter.dev/get-started/install/macos#ios-setup) for iOS development on MacOS
 
+## Setting up Environment Variables (TODO)
+
 ## Setting up the Web Frontend (Client Folder)
 
 ```bash
@@ -50,11 +52,22 @@ flutter run lib/main.dart
 
 ## Setting up the Server Backend (Server Folder)
 
+WINDOWS:
+
 ```bash
-python3 -m venv venv
-WINDOWS: .\venv\Scripts\activate || MAC/LINUX: source venv/bin/activate
-pip install -r requirements.txt
-uvicorn app:app --reload
+python -m venv server/venv
+.\server\venv\Scripts\activate
+pip install -r server/requirements.txt
+python server/main.py
+```
+
+MAC/LINUX:
+
+```bash
+python3 -m venv server/venv
+source server/venv/bin/activate
+pip3 install -r server/requirements.txt
+python3 server/main.py
 ```
 
 Navigate to the URL displayed in the terminal in your web browser of choice.
