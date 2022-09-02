@@ -28,6 +28,7 @@ client/*.sln
 client/*.sw?
 
 # Global
+./venv/
 venv/
 .env
 **/__pycache__/**
