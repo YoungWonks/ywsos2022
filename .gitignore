@@ -35,3 +35,6 @@ venv/
 server/__pycache__/
 server/routers/__pycache__/
 server/routers/__pycache__/posts.cpython-39.pyc
+# Server
+server/venv
+server/**/__pycache__

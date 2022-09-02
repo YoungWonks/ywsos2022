@@ -1,7 +1,9 @@
 from fastapi import APIRouter
 from config import settings
 from db import db
+
 router = APIRouter()
+
 @router.get('/')
 def get_posts():
     return {"message": f"This returns all posts"}
@@ -18,3 +20,4 @@ def update_post():
 @router.delete('/{id}')
 def delete_post():
     return {"message": "this deletes a post", "success": True}
+
