@@ -1,6 +1,6 @@
 from pydantic import BaseSettings
 class Settings (BaseSettings):
-    ENV_VARIABLE: str
+    MONGODB_URI: str
     class Config:
         env_file = './.env'
 

@@ -1,14 +1,16 @@
 from fastapi import APIRouter
 from config import settings
+from db import db
 router = APIRouter()
 @router.get('/')
 def get_posts():
-    return {"message": f"This returns all posts {settings.ENV_VARIABLE}"}
+    return {"message": f"This returns all posts"}
 @router.get('/{id}')
 def get_post():
     return {"message": "This post based on ID", "success": True}
 @router.post('/')
-def add_post():
+async def add_post():
+    await db.posts.insert_one({"text": "aishd"})
     return {"message": "this adds a post", "success": True}
 @router.put('/{id}')
 def update_post():
