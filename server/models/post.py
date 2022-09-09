@@ -1,7 +1,6 @@
-from pydantic import Field, BaseModel, EmailStr
-from models.PyObjectId import PyObjectId
+from pydantic import Field, BaseModel, EmailStr 
 from bson import ObjectId
-
+from models.PyObjectId import PyObjectId
 class PostModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(...)
