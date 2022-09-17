@@ -26,3 +26,16 @@ client/*.ntvs*
 client/*.njsproj
 client/*.sln
 client/*.sw?
+
+# Global
+./venv/
+venv/
+.env
+**/__pycache__/**
+server/__pycache__/
+server/routers/__pycache__/
+server/routers/__pycache__/posts.cpython-39.pyc
+# Server
+server/venv
+server/**/__pycache__
+.vscode/
