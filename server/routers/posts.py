@@ -1,21 +1,3 @@
-<<<<<<< HEAD
-from fastapi import APIRouter
-from config import settings
-from db import db
-
-router = APIRouter()
-
-@router.get('/')
-def get_posts():
-    return {"message": f"This returns all posts"}
-@router.get('/{id}')
-def get_post():
-    return {"message": "This post based on ID", "success": True}
-@router.post('/')
-async def add_post():
-    await db.posts.insert_one({"text": "apple"})
-    return {"message": "this adds a post", "success": True}
-=======
 
 from fastapi import APIRouter, status, Body
 from fastapi.encoders import jsonable_encoder
@@ -45,14 +27,9 @@ async def add_post(post:PostModel=Body(...)):
     new_post = await db.posts.insert_one(post)
     created_post = await db.posts.find_one({"_id":new_post.inserted_id})
     return JSONResponse(status_code=status.HTTP_201_CREATED,content=created_post)
->>>>>>> 633608a9e2388479ec60c8b89b84f2c967f73e2f
 @router.put('/{id}')
 def update_post():
     return {"message": "this updates a post", "success": True}
 @router.delete('/{id}')
 def delete_post():
     return {"message": "this deletes a post", "success": True}
-<<<<<<< HEAD
-=======
-
->>>>>>> 633608a9e2388479ec60c8b89b84f2c967f73e2f

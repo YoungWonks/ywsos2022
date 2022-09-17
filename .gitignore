@@ -27,11 +27,6 @@ client/*.njsproj
 client/*.sln
 client/*.sw?
 
-<<<<<<< HEAD
-.env
-/venv
-**/__pycache__/**
-=======
 # Global
 ./venv/
 venv/
@@ -44,4 +39,3 @@ server/routers/__pycache__/posts.cpython-39.pyc
 server/venv
 server/**/__pycache__
 .vscode/
->>>>>>> 633608a9e2388479ec60c8b89b84f2c967f73e2f

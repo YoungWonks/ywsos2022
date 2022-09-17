@@ -5,10 +5,6 @@ import uvicorn
 
 from config import settings
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 633608a9e2388479ec60c8b89b84f2c967f73e2f
 app = FastAPI()
 app.include_router(posts.router, tags=["Posts"], prefix="/api/posts")
 
