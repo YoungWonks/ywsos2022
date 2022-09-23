@@ -39,14 +39,16 @@ async def add_post(post:PostModel=Body(...)):
 
 async def update_post(id:str,title,text):
 
-    await db.posts.update_one(jsonable_encoder({"_id":id}),jsonable_encoder({"$set":{"text":text,"title":title}}))
-   
-    return JSONResponse(status_code=status.HTTP_200_OK,content="Content Successfully Updated")
+    update_result = await db.posts.update_one(jsonable_encoder({"_id":id}),{"$set":{"text":text,"title":title}})
+    if update_result.matched_count == 0:
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,content="Post not Found")
+    return JSONResponse(status_code=status.HTTP_200_OK,content="Post Succesfully updated")
 
 @router.delete('/{id}')
 async def delete_post(id):
 
     post = await db.posts.find_one({"_id":id})
+    
     await db.posts.delete_one({"_id":id})
     return JSONResponse(status_code=status.HTTP_200_OK,content=post)
 
