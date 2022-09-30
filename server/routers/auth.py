@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Body, HTTPException, Depends, Request
+from fastapi import APIRouter, status, Body, HTTPException, Depends, Request, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse 
 from config import settings
@@ -8,10 +8,10 @@ from typing import List
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from models.user import UserModel
-from pydantic import BaseModel
+from pydantic import BaseSettings
 
 
-class Settings(BaseModel):
+class Settings(BaseSettings):
 
     authjwt_secret_key: str = "secret"
     # Configure application to store and get JWT from cookies
@@ -33,7 +33,7 @@ def get_config():
 
 @router.post("/login")
 
-def login(user: UserModel, Authorize: AuthJWT = Depends()):
+def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
     if user.username != "test" or user.password != "test":
         raise HTTPException(status_code=401,detail="Bad username or password")
 
@@ -44,7 +44,7 @@ def login(user: UserModel, Authorize: AuthJWT = Depends()):
     # Set the JWT and CSRF double submit cookies in the response
     Authorize.set_access_cookies(access_token)
     Authorize.set_refresh_cookies(refresh_token)
-    return JSONResponse(status_code=status.HTTP_200_OK, content="success")
+    return {"status_code":status.HTTP_200_OK, "content":"success"}
 
 @router.delete('/logout')
 def logout(Authorize: AuthJWT = Depends()):

@@ -1,2 +1,3 @@
 fastapi[all]
 motor
+fastapi_jwt_auth
