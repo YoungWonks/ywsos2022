@@ -1,0 +1,59 @@
+from fastapi import APIRouter, status, Body, HTTPException, Depends, Request
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse 
+from config import settings
+from db import db
+from models.post import PostModel
+from typing import List
+from fastapi_jwt_auth import AuthJWT
+from fastapi_jwt_auth.exceptions import AuthJWTException
+from models.user import UserModel
+from pydantic import BaseModel
+
+
+class Settings(BaseModel):
+
+    authjwt_secret_key: str = "secret"
+    # Configure application to store and get JWT from cookies
+    authjwt_token_location: set = {"cookies"}
+    # Only allow JWT cookies to be sent over https
+    authjwt_cookie_secure: bool = False
+    # Enable csrf double submit protection. default is True
+    authjwt_cookie_csrf_protect: bool = True
+    # Change to 'lax' in production to make your website more secure from CSRF Attacks, default is None
+    authjwt_cookie_samesite: str = "none"
+    
+    
+
+router = APIRouter()
+
+@AuthJWT.load_config
+def get_config():
+    return Settings()
+
+@router.post("/login")
+
+def login(user: UserModel, Authorize: AuthJWT = Depends()):
+    if user.username != "test" or user.password != "test":
+        raise HTTPException(status_code=401,detail="Bad username or password")
+
+    # Create the tokens and passing to set_access_cookies or set_refresh_cookies
+    access_token = Authorize.create_access_token(subject=user.username)
+    refresh_token = Authorize.create_refresh_token(subject=user.username)
+
+    # Set the JWT and CSRF double submit cookies in the response
+    Authorize.set_access_cookies(access_token)
+    Authorize.set_refresh_cookies(refresh_token)
+    return JSONResponse(status_code=status.HTTP_200_OK, content="success")
+
+@router.delete('/logout')
+def logout(Authorize: AuthJWT = Depends()):
+    """
+    Because the JWT are stored in an httponly cookie now, we cannot
+    log the user out by simply deleting the cookies in the frontend.
+    We need the backend to send us a response to delete the cookies.
+    """
+    Authorize.jwt_required()
+
+    Authorize.unset_jwt_cookies()
+    return JSONResponse(status_code=status.HTTP_200_OK, content="success")
