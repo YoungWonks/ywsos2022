@@ -8,7 +8,6 @@ from fastapi.responses import JSONResponse
 
 from config import settings
 
-
 app = FastAPI()
 app.include_router(posts.router, tags=["Posts"], prefix="/api/posts")
 app.include_router(auth.router, tags=["Authentication"], prefix="/api/auth")
