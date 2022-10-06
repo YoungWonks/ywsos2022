@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:mobile/src/themes/themes.dart';
-import 'package:mobile/src/themes/themes_controller.dart';
+import 'package:mobile/src/core/settings/themes.dart';
+import 'package:mobile/src/core/settings/themes/themes_controller.dart';
 
 class ThemeView extends GetView<ThemeController> {
   const ThemeView({Key? key}) : super(key: key);
@@ -14,10 +14,6 @@ class ThemeView extends GetView<ThemeController> {
       ),
       body: Padding(
           padding: const EdgeInsets.all(16),
-          // Glue the SettingsController to the theme selection DropdownButton.
-          //
-          // When a user selects a theme from the dropdown list, the
-          // SettingsController is updated, which rebuilds the MaterialApp.
           child: Column(children: [
             ElevatedButton(
               onPressed: () {
