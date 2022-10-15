@@ -1,10 +1,10 @@
-from fastapi import APIRouter, status, Body, HTTPException, Depends, Request, Response
+from fastapi import APIRouter, Header, status, Body, HTTPException, Depends, Request, Response
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse 
 from config import settings
 from db import db
 from models.post import PostModel
-from typing import List
+from typing import List, Union
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from models.user import UserModel
@@ -20,8 +20,6 @@ class Settings(BaseSettings):
     authjwt_cookie_secure: bool = False
     # Enable csrf double submit protection. default is True
     authjwt_cookie_csrf_protect: bool = True
-    # Change to 'lax' in production to make your website more secure from CSRF Attacks, default is None
-    authjwt_cookie_samesite: str = "none"
     
     
 
@@ -47,7 +45,7 @@ def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
     return {"status_code":status.HTTP_200_OK, "content":"success"}
 
 @router.delete('/logout')
-def logout(Authorize: AuthJWT = Depends()):
+def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: AuthJWT = Depends()):
     """
     Because the JWT are stored in an httponly cookie now, we cannot
     log the user out by simply deleting the cookies in the frontend.
