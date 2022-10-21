@@ -1,5 +1,5 @@
-
-from fastapi import APIRouter, status, Body
+from fastapi_jwt_auth import AuthJWT
+from fastapi import APIRouter, status, Body, Depends
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse 
 from config import settings
@@ -12,7 +12,10 @@ router = APIRouter()
 
 @router.get('/',response_model=List[PostModel])
 
-async def get_posts():
+async def get_posts(Authorize:AuthJWT=Depends()):
+    Authorize.jwt_required()
+    current_user = Authorize.get_jwt_subject()
+    print(current_user)
 
     all_posts = await db.posts.find({}).to_list(1000)
     return JSONResponse(status_code=status.HTTP_200_OK,content=all_posts)

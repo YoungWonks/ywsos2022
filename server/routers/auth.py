@@ -54,4 +54,10 @@ def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: Aut
     Authorize.jwt_required()
 
     Authorize.unset_jwt_cookies()
-    return JSONResponse(status_code=status.HTTP_200_OK, content="success")
+    Authorize.unset_access_cookies()
+    response = JSONResponse(status_code=status.HTTP_200_OK, content="success")
+    response.delete_cookie("access_token_cookie")
+    response.delete_cookie("csrf_access_token")
+    response.delete_cookie("csrf_refresh_token")
+    response.delete_cookie("refresh_token_cookie")
+    return response
