@@ -1,5 +1,5 @@
-from fastapi_jwt_auth import AuthJWT
-from fastapi import APIRouter, status, Body, Depends
+
+from fastapi import APIRouter, status, Body
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse 
 from config import settings
@@ -12,10 +12,7 @@ router = APIRouter()
 
 @router.get('/',response_model=List[PostModel])
 
-async def get_posts(Authorize:AuthJWT=Depends()):
-    Authorize.jwt_required()
-    current_user = Authorize.get_jwt_subject()
-    print(current_user)
+async def get_posts():
 
     all_posts = await db.posts.find({}).to_list(1000)
     return JSONResponse(status_code=status.HTTP_200_OK,content=all_posts)
@@ -54,4 +51,3 @@ async def delete_post(id):
     
     await db.posts.delete_one({"_id":id})
     return JSONResponse(status_code=status.HTTP_200_OK,content=post)
-
