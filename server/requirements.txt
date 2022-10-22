@@ -7,4 +7,3 @@ uvicorn==0.18.3
 bson==0.5.10
 datetime==4.7
 typing==3.7.4.3
-db==0.1.1
