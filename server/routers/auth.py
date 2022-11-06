@@ -42,7 +42,7 @@ def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
     # Set the JWT and CSRF double submit cookies in the response
     Authorize.set_access_cookies(access_token)
     Authorize.set_refresh_cookies(refresh_token)
-    return {"status_code":status.HTTP_200_OK, "content":"success"}
+    return {"status_code":status.HTTP_200_OK, "content":"success", "access_token": access_token, "refresh_token": refresh_token}
 
 @router.delete('/logout')
 def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: AuthJWT = Depends()):
