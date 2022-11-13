@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:get/get_connect.dart';
 import 'package:get_storage/get_storage.dart';
@@ -13,7 +14,7 @@ class AuthService extends GetConnect {
           "password": password,
         }));
     if (response.statusCode != 200) {
-      print(response.statusText);
+      log(response.statusText.toString());
       return;
     }
     final extractedData = Map<String, dynamic>.from(response.body);
