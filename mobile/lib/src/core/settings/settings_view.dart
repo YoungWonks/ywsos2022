@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
-import 'package:mobile/src/core/settings/themes.dart';
-import 'package:mobile/src/core/settings/themes/themes_controller.dart';
+import 'package:get/get.dart';
+import 'package:mobile/src/core/settings/themes/theme_service.dart';
 
-class ThemeView extends GetView<ThemeController> {
+class ThemeView extends StatelessWidget {
   const ThemeView({Key? key}) : super(key: key);
 
   @override
@@ -13,23 +12,18 @@ class ThemeView extends GetView<ThemeController> {
         title: const Text('Settings'),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(children: [
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
             ElevatedButton(
               onPressed: () {
-                controller.changeThemeMode(ThemeMode.dark);
-                controller.saveTheme(true);
+                ThemeService().changeThemeMode();
               },
-              child: Text('Dark Theme'),
+              child: Text('Switch Theme'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                controller.changeThemeMode(ThemeMode.light);
-                controller.saveTheme(false);
-              },
-              child: Text('Light Theme'),
-            ),
-          ])),
+          ],
+        ),
+      ),
     );
   }
 }
