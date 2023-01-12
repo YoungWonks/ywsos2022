@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="d-flex align-self-center flex-column bg-white bg-opacity-50 p-5 rounded-3">
     <form>
       <div class="mb-3">
         <label for="exampleInputEmail1" class="form-label">Email address</label>
@@ -25,7 +25,7 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Check me out</label>
       </div>
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
   </div>
 </template>
