@@ -11,3 +11,10 @@ import Navbar from "./components/Navbar.vue";
 </template>
 
 
+<style>
+body{
+  background-position-y: -200px !important;
+  background-size: 100% auto !important;
+  background: url(./Flower_field.jpg);
+}
+</style>
