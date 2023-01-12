@@ -51,4 +51,4 @@ async def delete_post(id):
     
     await db.posts.delete_one({"_id":id})
     return JSONResponse(status_code=status.HTTP_200_OK,content=post)
-
+    
