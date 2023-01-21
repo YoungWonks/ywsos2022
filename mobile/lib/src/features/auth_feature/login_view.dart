@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
+import 'package:mobile/src/core/widgets/custom_app_bar.dart';
 import 'package:mobile/src/features/auth_feature/auth_controller.dart';
+import 'package:mobile/src/features/auth_feature/register_view.dart';
 
-class LoginView extends HookWidget {
+class LoginView extends GetView<AuthController> {
   LoginView({super.key});
-
-  final authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    final usernameTextController = useTextEditingController();
-    final passwordTextController = useTextEditingController();
     return Scaffold(
       extendBodyBehindAppBar: true,
+      appBar: CustomAppBar(title: ''),
       body: Center(
         child: Container(
           decoration: BoxDecoration(
@@ -28,19 +26,19 @@ class LoginView extends HookWidget {
             children: [
               Text(
                 'Sign In',
-                style: Theme.of(context).textTheme.headline1,
+                style: Get.textTheme.displayMedium,
               ),
               Column(
                 children: [
                   TextField(
-                    controller: usernameTextController,
+                    controller: controller.usernameTextController,
                     decoration: const InputDecoration(hintText: 'Username'),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
                   TextField(
-                    controller: passwordTextController,
+                    controller: controller.passwordTextController,
                     decoration: const InputDecoration(hintText: 'Password'),
                   ),
                   const SizedBox(
@@ -50,7 +48,7 @@ class LoginView extends HookWidget {
                     children: [
                       Text(
                         "Remember me",
-                        style: Theme.of(context).textTheme.bodyText1,
+                        style: Get.textTheme.bodyLarge,
                       ),
                       Checkbox(
                         value: false,
@@ -67,10 +65,14 @@ class LoginView extends HookWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      authController.loginUser(usernameTextController.text,
-                          passwordTextController.text);
+                      controller.loginUser(
+                          controller.usernameTextController.text,
+                          controller.passwordTextController.text);
                     },
-                    child: const Text("Submit"),
+                    child: Text(
+                      "Submit",
+                      style: Get.textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
@@ -78,11 +80,17 @@ class LoginView extends HookWidget {
                 children: [
                   Text(
                     'New here? Let\'s get you started.',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Get.textTheme.bodyLarge,
                   ),
                   ElevatedButton(
-                      onPressed: () {},
-                      child: const Text("Click here to register"))
+                    onPressed: () {
+                      Get.off(() => RegisterView());
+                    },
+                    child: Text(
+                      "Click here to register",
+                      style: Get.textTheme.bodyLarge,
+                    ),
+                  )
                 ],
               )
             ],

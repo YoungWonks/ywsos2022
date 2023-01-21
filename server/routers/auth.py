@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     authjwt_secret_key: str = "secret"
     # Configure application to store and get JWT from cookies
-    authjwt_token_location: set = {"cookies"}
+    authjwt_token_location: set = {"headers"}
     # Only allow JWT cookies to be sent over https
     authjwt_cookie_secure: bool = False
     # Enable csrf double submit protection. default is True
@@ -38,10 +38,6 @@ def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
     # Create the tokens and passing to set_access_cookies or set_refresh_cookies
     access_token = Authorize.create_access_token(subject=user.username)
     refresh_token = Authorize.create_refresh_token(subject=user.username)
-
-    # Set the JWT and CSRF double submit cookies in the response
-    Authorize.set_access_cookies(access_token)
-    Authorize.set_refresh_cookies(refresh_token)
     return {"status_code":status.HTTP_200_OK, "content":"success", "access_token": access_token, "refresh_token": refresh_token}
 
 @router.delete('/logout')
@@ -60,3 +56,10 @@ def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: Aut
     response.delete_cookie("csrf_refresh_token")
     response.delete_cookie("refresh_token_cookie")
     return response
+
+@router.get('/access-token')
+def access_token(Authorize: AuthJWT = Depends(), user_agent: Union[str, None] = Header(default=None)):
+    print(user_agent)
+    Authorize.jwt_required()
+
+    return {"status_code": status.HTTP_200_OK, "content":"success"}

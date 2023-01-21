@@ -10,10 +10,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      // your customization here
+      backgroundColor: Colors.transparent,
       title: Text('$title'),
       centerTitle: true,
-
       actions: [
         IconButton(
             onPressed: () {
