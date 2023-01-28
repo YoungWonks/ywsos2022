@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:get/get.dart';
+import 'package:mobile/src/core/widgets/custom_app_bar.dart';
 import 'package:mobile/src/features/auth_feature/auth_controller.dart';
+import 'package:mobile/src/features/auth_feature/login_view.dart';
 
-class RegisterView extends HookWidget {
+class RegisterView extends GetView<AuthController> {
   RegisterView({super.key});
 
   final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-    final usernameTextController = useTextEditingController();
-    final passwordTextController = useTextEditingController();
-    final emailTextEditingController = useTextEditingController();
+    final usernameTextController = controller.usernameTextController;
+    final passwordTextController = controller.passwordTextController;
+    final emailTextEditingController = controller.emailTextController;
     return Scaffold(
       extendBodyBehindAppBar: true,
+      appBar: CustomAppBar(title: ''),
       body: Center(
         child: Container(
           decoration: BoxDecoration(
@@ -29,7 +31,7 @@ class RegisterView extends HookWidget {
             children: [
               Text(
                 'Sign Up',
-                style: Theme.of(context).textTheme.headline1,
+                style: Get.textTheme.displayMedium,
               ),
               Column(
                 children: [
@@ -51,6 +53,7 @@ class RegisterView extends HookWidget {
                   TextField(
                     controller: passwordTextController,
                     decoration: const InputDecoration(hintText: 'Password'),
+                    keyboardType: TextInputType.visiblePassword,
                   ),
                   const SizedBox(
                     height: 10,
@@ -60,7 +63,10 @@ class RegisterView extends HookWidget {
                       authController.loginUser(usernameTextController.text,
                           passwordTextController.text);
                     },
-                    child: const Text("Submit"),
+                    child: Text(
+                      "Submit",
+                      style: Get.textTheme.bodyLarge,
+                    ),
                   ),
                 ],
               ),
@@ -68,11 +74,16 @@ class RegisterView extends HookWidget {
                 children: [
                   Text(
                     'Been here before? Let\'s get you signed in.',
-                    style: Theme.of(context).textTheme.bodyText1,
+                    style: Get.textTheme.bodyLarge,
                   ),
                   ElevatedButton(
-                    onPressed: () {},
-                    child: const Text("Click here to register"),
+                    onPressed: () {
+                      Get.off(() => LoginView());
+                    },
+                    child: Text(
+                      "Click here to sign in",
+                      style: Get.textTheme.bodyLarge,
+                    ),
                   )
                 ],
               )

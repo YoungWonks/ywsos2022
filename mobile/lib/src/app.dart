@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: InitialBinding(),
       themeMode: ThemeService().getThemeMode(),
-      theme: Themes.lightTheme,
+      theme: Themes.darkTheme,
       darkTheme: Themes.darkTheme,
       debugShowCheckedModeBanner: false,
-      home: RegisterView(),
+      home: LoginView(),
     );
   }
 }

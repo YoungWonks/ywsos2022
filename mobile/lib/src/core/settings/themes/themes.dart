@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Themes {
-  static final lightTheme = ThemeData(
-    colorScheme: const ColorScheme.light().copyWith(
-      primary: const Color.fromRGBO(83, 195, 56, 1),
-      secondary: Colors.white,
-    ),
-  );
-  static final darkTheme = ThemeData.dark().copyWith(
+  static final lightTheme = ThemeData.light()
+      .copyWith(appBarTheme: AppBarTheme(color: Colors.transparent));
+  static final darkTheme = ThemeData(
     appBarTheme: const AppBarTheme(
       color: Colors.transparent,
       titleTextStyle: TextStyle(color: Color(0xFF007605), fontSize: 55),
@@ -18,18 +15,19 @@ class Themes {
     colorScheme: const ColorScheme.dark().copyWith(
       primary: const Color(0xFF7CE26B),
     ),
-    textTheme: const TextTheme(
-      headline1: TextStyle(
-        color: Colors.black,
-        fontSize: 45,
-        fontWeight: FontWeight.bold,
-      ),
-      bodyText1: TextStyle(
-        color: Colors.black,
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-      ),
-    ),
+    // textTheme: const TextTheme(
+    //   headline1: TextStyle(
+    //     color: Colors.black,
+    //     fontSize: 45,
+    //     fontWeight: FontWeight.bold,
+    //   ),
+    //   bodyText1: TextStyle(
+    //     color: Colors.black,
+    //     fontSize: 13,
+    //     fontWeight: FontWeight.w500,
+    //   ),
+    // ),
+    textTheme: GoogleFonts.interTextTheme(),
     inputDecorationTheme: const InputDecorationTheme(
       fillColor: Colors.green,
       hoverColor: Colors.green,
