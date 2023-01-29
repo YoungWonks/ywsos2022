@@ -7,10 +7,10 @@ from typing import Optional
 
 class PostModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    name: str = Field(...)
-    email: EmailStr = Field(...)
+    user_id: PyObjectId = Field(default_factory=PyObjectId, alias="user_id")
     title: str = Field(...)
     text: str = Field(...)
+    coords: list = []
     created_at: datetime = datetime.utcnow()
     updated_at: Optional[datetime] = None
 
@@ -21,8 +21,8 @@ class PostModel(BaseModel):
         json_encoders = {ObjectId: str}
         schema_extra = {
             "example": {
-                "name": "Jane Doe",
-                "email": "jdoe@example.com",
+                "user_id": "63c433db00b312ac865da8dd",
+                "coords": [38.488835, -122.699864],
                 "title": "Experiments, Science, and Fashion in Nanophotonics",
                 "text": "3.0",  
             }

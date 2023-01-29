@@ -1,4 +1,3 @@
-
 from fastapi import APIRouter, status, Body
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse 
@@ -37,9 +36,11 @@ async def add_post(post:PostModel=Body(...)):
     
 @router.put('/{id}',response_model=PostModel)
 
-async def update_post(id:str,title,text):
-
-    update_result = await db.posts.update_one(jsonable_encoder({"_id":id}),{"$set":{"text":text,"title":title}})
+async def update_post(id:str,post:PostModel=Body(...)):
+  
+    post = jsonable_encoder(post)    
+    print(post)
+    update_result = await db.posts.update_one(jsonable_encoder({"_id":id}),{"$set":{"coords":post["coords"], "text":post["text"], "title":post["title"]}})
     if update_result.matched_count == 0:
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,content="Post not Found")
     return JSONResponse(status_code=status.HTTP_200_OK,content="Post Succesfully updated")
