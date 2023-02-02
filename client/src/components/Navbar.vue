@@ -8,10 +8,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="/register">Register</a>
+          <a class="nav-link"  :class = "{'active':$route.path.includes('register')}" aria-current="page" href="/register">Register</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" :class = "{'active':$route.path.includes('login')}" href="/login">Login</a>
         </li>
       </ul>
     </div>
