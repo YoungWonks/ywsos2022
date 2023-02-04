@@ -19,13 +19,14 @@
           type="password"
           class="form-control"
           id="exampleInputPassword1"
+          v-model = "password"
         />
       </div>
       <div class="mb-3 form-check">
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Remember me</label>
       </div>
-      <button type="submit" class="btn btn-secondary m-3">Submit</button>
+      <button type="button" class="btn btn-secondary m-3" @click="register">Submit</button>
       <a href = "/login">
         <button class="btn btn-secondary">Login instead</button>
       </a>
@@ -34,9 +35,25 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data(){
-    return{username:""}
+    return{username:"",password:""}
+  },
+  methods:{
+    register(){
+      console.log('register',this.username,this.password)
+      axios.post('http://127.0.0.1:8000/api/auth/register', {
+    username: this.username,
+    password: this.password
+  })
+  .then(function (response) {
+    console.log(response);
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+    }
   },
   computed:{
     validateUsername(){
@@ -47,6 +64,8 @@ export default {
         return true
       }
     }
-  }
+  },
+  
+  
 };
 </script>
