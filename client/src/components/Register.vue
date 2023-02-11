@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import router from '../router';
 export default {
   data(){
     return{username:"",password:""}
@@ -48,11 +49,14 @@ export default {
     password: this.password
   })
   .then(function (response) {
-    console.log(response);
+    if (response.data.content == 'success'){
+      router.push("/settings")}
+    console.log(response); 
   })
   .catch(function (error) {
     console.log(error);
   });
+    
     }
   },
   computed:{
