@@ -33,14 +33,21 @@ def get_config():
 
 @router.post("/login")
 
-def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
-    if user.username != "test" or user.password != "test":
-        raise HTTPException(status_code=401,detail="Bad username or password")
+async def login(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
+    userLoggingIn = await db.users.find_one({"username":user.username})
+    if userLoggingIn != None:
+        print(user.password)
+        print(userLoggingIn['password'])
+        if pbkdf2_sha256.verify(user.password, userLoggingIn['password']):
+            access_token = Authorize.create_access_token(subject=user.username)
+            refresh_token = Authorize.create_refresh_token(subject=user.username)
+            return {"status_code":status.HTTP_200_OK, "content":"success", "access_token": access_token, "refresh_token": refresh_token}
+        else:
+            return {"status_code":status.HTTP_401_UNAUTHORIZED, "status":"failure", "content":"Password incorrect"}
+    else:
+       return {"status_code":status.HTTP_401_UNAUTHORIZED, "status":"failure", "content":"Userame not found."}
 
     # Create the tokens and passing to set_access_cookies or set_refresh_cookies
-    access_token = Authorize.create_access_token(subject=user.username)
-    refresh_token = Authorize.create_refresh_token(subject=user.username)
-    return {"status_code":status.HTTP_200_OK, "content":"success", "access_token": access_token, "refresh_token": refresh_token}
 
 
 @router.delete('/logout')
@@ -65,10 +72,23 @@ def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: Aut
 def access_token(Authorize: AuthJWT = Depends(), user_agent: Union[str, None] = Header(default=None)):
     print(user_agent)
     Authorize.jwt_required()
-
     return {"status_code": status.HTTP_200_OK, "content":"success"}
-@router.post("/register")
 
+@router.get('/refresh-token')
+def refresh_token(Authorize: AuthJWT = Depends(), user_agent: Union[str, None] = Header(default=None)):
+    """
+    The jwt_refresh_token_required() function insures a valid refresh
+    token is present in the request before running any code below that function.
+    we use the get_jwt_subject() function to get the subject of the refresh
+    token, and use create_access_token() function again to make a new access token
+    """
+    Authorize.jwt_refresh_token_required()
+    current_user = Authorize.get_jwt_subject()
+    access_token = Authorize.create_access_token(subject=current_user)
+    return {"access_token": access_token}
+
+
+@router.post("/register")
 async def register(response: Response, user: UserModel, Authorize: AuthJWT = Depends()):
     special_characters = "!@#$%^&*()-+?_=,<>/"
     user_check = await db.users.find_one({"username":user.username})
@@ -82,14 +102,11 @@ async def register(response: Response, user: UserModel, Authorize: AuthJWT = Dep
                 })
                 return {"status_code":status.HTTP_200_OK, "content":"success"}
             else:
-                print("Give your password a special character!")
-                return {"status_code":status.HTTP_200_OK, "content":"failure"}
+                return {"status_code":status.HTTP_422_UNPROCESSABLE_ENTITY, "status":"failure", "content":"Give your password a special character!"}
         else:
-            print("Make your username more than three digits!")
-            return {"status_code":status.HTTP_200_OK, "content":"failure"}
+            return {"status_code":status.HTTP_411_LENGTH_REQUIRED, "status":"failure", "content":"Make your username more than three digits!"}
     else:
-        print("Username already taken")
-        return {"status_code":status.HTTP_200_OK, "content":"failure"}
+        return {"status_code":status.HTTP_422_UNPROCESSABLE_ENTITY, "status":"failure", "content":"Username already taken"}
         
        
      
