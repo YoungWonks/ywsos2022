@@ -6,6 +6,7 @@ from typing import Optional
 
 
 class PostModel(BaseModel):
+    type: str = Field(...) #giving, getting, listing
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     user_id: PyObjectId = Field(default_factory=PyObjectId, alias="user_id")
     title: str = Field(...)

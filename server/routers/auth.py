@@ -8,9 +8,11 @@ from models.post import PostModel
 from typing import List, Union
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
-from models.user import UserModel
+from models.user import UserModel, UserForgotPassModel
 from datetime import datetime
 from pydantic import BaseSettings
+from random import *
+from .helpers import hexCode, passwordCheck
 
 
 class Settings(BaseSettings):
@@ -95,18 +97,39 @@ async def register(response: Response, user: UserModel, Authorize: AuthJWT = Dep
     if user_check == None:
         if len(user.username) > 3:
             if any(c in special_characters for c in user.password):
+                secret_key = hexCode()
                 db.users.insert_one({
                     "username": user.username,
                     "password": pbkdf2_sha256.hash(user.password),
                     "created_at": datetime.utcnow(),
+                    "key": secret_key
                 })
-                return {"status_code":status.HTTP_200_OK, "content":"success"}
+                return {"status_code":status.HTTP_200_OK, "content":"success", "key":secret_key}
             else:
                 return {"status_code":status.HTTP_422_UNPROCESSABLE_ENTITY, "status":"failure", "content":"Give your password a special character!"}
         else:
             return {"status_code":status.HTTP_411_LENGTH_REQUIRED, "status":"failure", "content":"Make your username more than three digits!"}
     else:
         return {"status_code":status.HTTP_422_UNPROCESSABLE_ENTITY, "status":"failure", "content":"Username already taken"}
-        
+
+@router.post("/forgotpass")
+
+async def forgotpass(response: Response, user: UserForgotPassModel, Authorize: AuthJWT = Depends()):
+    user_forgot = await db.users.find_one({"username":user.username})
+    if user_forgot != None:
+        if user.key == user_forgot['key']:
+            if passwordCheck(user.new_password) == True:
+                access_token = Authorize.create_access_token(subject=user.username)
+                refresh_token = Authorize.create_refresh_token(subject=user.username)
+                update_result = await db.users.update_one({"username": user.username}, {"$set": {"password": pbkdf2_sha256.hash(user.new_password)}})
+                if update_result.matched_count == 0:
+                    return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,content="User not found")
+                return JSONResponse(status_code=status.HTTP_200_OK,content="User succesfully updated")
+            else:
+                return {"status_code":status.HTTP_401_UNAUTHORIZED, "status":"failure", "content":"Make sure your password has special characters and is mroe than 3 characters!"}
+        else:
+            return {"status_code":status.HTTP_401_UNAUTHORIZED, "status":"failure", "content":"Key incorrect"}
+    else:
+       return {"status_code":status.HTTP_401_UNAUTHORIZED, "status":"failure", "content":"Userame not found."}
        
      
