@@ -25,6 +25,17 @@ async def get_post(id:str):
         return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,content="Post not Found")
     return JSONResponse(status_code=status.HTTP_200_OK,content=post) 
 
+@router.get('/users/{user_id}',response_model=PostModel)
+
+async def get_user_posts(user_id:str):
+
+    posts = await db.posts.find({"user_id":user_id}).to_list(1000)
+    print(posts)
+    if posts is None:
+        return JSONResponse(status_code=status.HTTP_404_NOT_FOUND,content="Post not Found")
+    return JSONResponse(status_code=status.HTTP_200_OK,content=posts) 
+
+
 @router.post('/',response_model=PostModel)
 
 async def add_post(post:PostModel=Body(...)):
