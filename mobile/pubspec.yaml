@@ -14,9 +14,11 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_secure_storage: ^8.0.0
   get: ^4.6.5
   get_storage: ^2.0.3
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.3
+
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +35,8 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+  
+analyzer:
+  strong-mode: true
+  language:
+    enableSuperMixins: true
