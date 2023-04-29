@@ -54,7 +54,7 @@ async def login(response: Response, user: UserModel, Authorize: AuthJWT = Depend
 
 @router.delete('/logout')
 
-def logout(X_CSRF_TOKEN: Union[str, None] = Header(default=None), Authorize: AuthJWT = Depends()):
+def logout(Authorize: AuthJWT = Depends()):
     """
     Because the JWT are stored in an httponly cookie now, we cannot
     log the user out by simply deleting the cookies in the frontend.

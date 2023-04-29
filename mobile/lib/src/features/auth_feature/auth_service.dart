@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:get/get_connect.dart';
-import 'package:get_storage/get_storage.dart';
+import 'package:mobile/src/core/constants.dart';
 
 class AuthService extends GetConnect {
   Future<void> loginUser(String username, String password) async {
@@ -18,21 +18,36 @@ class AuthService extends GetConnect {
         throw response.statusText.toString();
       }
       final extractedData = Map<String, dynamic>.from(response.body);
-      final box = GetStorage();
-      await box.write('access_token', extractedData['access_token']);
-      await box.write('refresh_token', extractedData['refresh_token']);
+      await secureStorage.write(
+          key: 'access_token', value: extractedData['access_token']);
+      await secureStorage.write(
+          key: 'refresh_token', value: extractedData['refresh_token']);
     } catch (e) {
       log("Error: ${e.toString()}");
     }
   }
 
+  Future<void> registerUser(String username, String password) async {
+    final response = await post(
+        'http://127.0.0.1:8000/api/auth/register',
+        contentType: 'application/json',
+        jsonEncode({
+          "username": username,
+          "password": password,
+        }));
+    if (response.statusCode != 200) {
+      throw response.statusText.toString();
+    }
+  }
+
   Future<bool> verifyAccessToken() async {
     try {
-      final box = GetStorage();
+      final accessToken = await secureStorage.read(key: 'access_token');
+      if (accessToken == null) return false;
       final response = await get(
         'http://127.0.0.1:8000/api/auth/access-token',
         headers: {
-          "authorization": "Bearer ${await box.read('access_token')}",
+          "authorization": "${await secureStorage.read(key: 'access_token')}",
         },
       );
       if (response.statusCode != 200) {
