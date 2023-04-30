@@ -56,6 +56,13 @@ class AuthController extends GetxController with StateMixin {
     if (isAccessTokenVerified) {
       // change(null, status: RxStatus.success());
       Get.off(() => HomeView());
+    } else {
+      authService.refreshAccessToken();
+      final isAccessTokenVerified = await authService.verifyAccessToken();
+
+      if (isAccessTokenVerified) {
+        Get.off(() => HomeView());
+      }
     }
     change(null, status: RxStatus.success());
     super.onReady();
