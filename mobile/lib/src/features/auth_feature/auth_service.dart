@@ -47,7 +47,7 @@ class AuthService extends GetConnect {
       final response = await get(
         'http://127.0.0.1:8000/api/auth/access-token',
         headers: {
-          "authorization": "${await secureStorage.read(key: 'access_token')}",
+          "authorization": accessToken,
         },
       );
       if (response.statusCode != 200) {
@@ -57,6 +57,24 @@ class AuthService extends GetConnect {
     } catch (e) {
       log(e.toString());
       return false;
+    }
+  }
+
+  void refreshAccessToken() async {
+    try {
+      final refreshToken = await secureStorage.read(key: 'refresh_token');
+      final response =
+          await get('http://127.0.0.1:8000/api/auth/refresh-token', headers: {
+        "authorization": "$refreshToken",
+      });
+      if (response.statusCode != 200) {
+        throw response.statusText.toString();
+      }
+      final decodedResponse = json.decode(response.body);
+      await secureStorage.write(
+          key: 'access_token', value: decodedResponse['access_token']);
+    } catch (e) {
+      log(e.toString());
     }
   }
 }
