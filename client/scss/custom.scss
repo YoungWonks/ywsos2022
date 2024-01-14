@@ -1,6 +1,10 @@
 $theme-colors: (
-  primary: #e4eb06,
-  secondary: #000000,
+  primary: #FFFBFF,
+  secondary: #362417,
+  info: #92817A,
+  success: #F1DABF,
+  light: #EAD2AC,
+  danger: #f32013,
 );
 
 @import "../node_modules/bootstrap/scss/bootstrap";
