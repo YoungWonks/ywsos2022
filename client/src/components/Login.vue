@@ -18,7 +18,7 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Remember me</label>
       </div>
-      <button type="button" class="btn btn-secondary m-3" @click="login">Login</button>
+      <button type="button" class="btn btn-secondary m-3" id="login_button" @click="login">Login</button>
         <!-- take the tokens and store in the browser, then redirect to stats, then check in the router.beforeEach if there is a token in the local
         storage. if there isn't redirect to login (maybe add an error message) -->
         <button class="btn btn-secondary" type="button"><a href="/register" class="text-decoration-none text-white">Sign up instead</a></button>
