@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar.vue";
 </script>
 
 <template>
-<div class="d-flex flex-column justify-content-start align-items-start min-vh-100">
+<div class="d-flex flex-column justify-content-start align-items-start min-vh-100 bg-primary">
   <Navbar/>
   <RouterView />
 </div>
@@ -15,6 +15,7 @@ import Navbar from "./components/Navbar.vue";
 body{
   background-position-y: -200px !important;
   background-size: 100% auto !important;
-  background: url(./Flower_field.jpg);
+  /* background: url(./Flower_field.jpg); */
 }
 </style>
+

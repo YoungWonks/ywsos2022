@@ -1,5 +1,5 @@
 <template>
-<nav class="navbar navbar-expand-lg bg-light d-flex justify-content-start">
+<nav class="navbar navbar-expand-lg bg-light d-flex container-fluid">
   <div class="container-fluid">
     <a class="navbar-brand" href="/">YWSOS</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,7 +11,13 @@
           <a class="nav-link"  :class = "{'active':$route.path.includes('register')}" aria-current="page" href="/register">Register</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" :class = "{'active':$route.path.includes('login')}" href="/login">Login</a>
+          <a class="nav-link" :class = "{'active':$route.path.includes('login')}" aria-current="page" href="/login">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class = "{'active':$route.path.includes('login')}" aria-current="page" href="/login">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" :class = "{'active':$route.path.includes('login')}" aria-current="page" href="/login">FAQ</a>
         </li>
       </ul>
     </div>

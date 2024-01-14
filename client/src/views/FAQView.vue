@@ -1,10 +1,7 @@
 <template>
-    <div class="d-flex flex-grow-1 align-self-center justify-content-center flex-column">
-        <div class="align-self-center"><img id="logo" src="../assets/logotransparent.png"/></div>
-    </div>
-
-    <div class="container">
-  <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+  <FAQ />
+  <br>
+    <footer class="d-flex justify-content-center container-fluid">
     <p class="col-md-4 mb-0 text-body-secondary">© 2023 Cleanworld</p>
 
     <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
@@ -17,11 +14,14 @@
       <li class="nav-item">support.cleanworld@googlemail.com</li>
     </ul>
   </footer>
-</div>
+  <br>
 </template>
-<style>
-#logo{
-    width: 500px;
-    height: 500px;
-}
-</style>
+
+<script>
+import Register from "../components/Register.vue";
+export default {
+  components: {
+    FAQ,
+  },
+};
+</script>

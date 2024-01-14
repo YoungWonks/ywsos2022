@@ -28,9 +28,16 @@
       </div>
       <button type="button" class="btn btn-secondary m-3" @click="register">Submit</button>
       <a href = "/login">
-        <button class="btn btn-secondary">Login instead</button>
+        <button class="btn btn-secondary" type="button"><a href="/login" class="text-decoration-none text-white">Login instead</a></button>
       </a>
     </form>
+    <br>
+    <br>
+    <div v-if='response!=""' class="alert alert-danger" role="alert">
+    {{response}}
+  </div>
+  </div>
+  <div>
   </div>
 </template>
 
@@ -39,18 +46,21 @@ import axios from 'axios';
 import router from '../router';
 export default {
   data(){
-    return{username:"",password:""}
+    return{username:"",password:"",response:""}
   },
   methods:{
     register(){
+      let globalThis = this
       console.log('register',this.username,this.password)
       axios.post('http://127.0.0.1:8000/api/auth/register', {
     username: this.username,
     password: this.password
   })
+  // "this" doesn't work in the then of the axios.post becuase there is no context (use globalThis)
   .then(function (response) {
+    globalThis.response=response.data.content;
     if (response.data.content == 'success'){
-      router.push("/settings")}
+      router.push("/login")}
     console.log(response); 
   })
   .catch(function (error) {
