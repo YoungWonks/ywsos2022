@@ -18,10 +18,10 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col my-2">
-                            <input type="number" v-model="lat" id="lat" step="0.000000001" placeholder="Latitude" class="form-control" required>
+                            <input v-model="lat" id="lat" placeholder="Latitude" class="form-control" required>
                         </div>
                         <div class="form-group col my-2">
-                            <input type="number" v-model="long" id="long" step="0.000000001" placeholder="Longitude" class="form-control" required>
+                            <input v-model="long" id="long" placeholder="Longitude" class="form-control" required>
                         </div>
                     </div>
                     <button @click="getPosition" type="button" class="btn btn-primary my-2">

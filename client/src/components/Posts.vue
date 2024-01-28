@@ -37,7 +37,7 @@ font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   <div id="html-content" class="d-flex overflow-scroll bg-primary justify-content-start w-100">
     <div style="max-height: 680px;" class="d-flex flex-column overflow-auto">
       <div class="d-flex flex-column mx-3">
-        <a href="/stats" style="text-decoration: none;">
+        <a href="/stats" id="gohome" style="text-decoration: none;">
         <div class="card my-3">
           <button type="button" class="btn btn-primary">
           Home
