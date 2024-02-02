@@ -26,7 +26,7 @@
         <input type="checkbox" class="form-check-input" id="exampleCheck1" />
         <label class="form-check-label" for="exampleCheck1">Remember me</label>
       </div>
-      <button type="button" class="btn btn-secondary m-3" @click="register">Submit</button>
+      <button type="button" class="btn btn-secondary m-3" id="register_button" @click="register">Submit</button>
       <a href = "/login">
         <button class="btn btn-secondary" type="button"><a href="/login" class="text-decoration-none text-white">Login instead</a></button>
       </a>
