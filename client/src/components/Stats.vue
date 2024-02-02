@@ -7,7 +7,7 @@
                         <h1 class="display-5 fw-bold">View Posts</h1>
                         <p class="fs-4">Let's see what other people want to be thrown away or want from you. 
                         Make a difference in your community today!</p>
-                        <button class="btn btn-secondary btn-lg" type="button"><a href="/dashboard" class="text-decoration-none text-white">Go there now</a></button>
+                        <button class="btn btn-secondary btn-lg" type="button"><a href="/dashboard" id="viewPosts" class="text-decoration-none text-white">Go there now</a></button>
                     </div>
                 </div>
 
@@ -23,7 +23,7 @@
                         <div class="h-100 p-5 bg-light border rounded-3">
                             <h2>Make a post!</h2>
                             <p>Go to the post creator now and upload a request to Cleanworld!</p>
-                            <button class="btn btn-secondary" type="button"><a href="/create" class="text-decoration-none text-white">Go there now</a></button>
+                            <button class="btn btn-secondary" type="button"><a href="/create" id="postcreator" class="text-decoration-none text-white">Go there now</a></button>
                     </div>
                 </div>
             </div>
